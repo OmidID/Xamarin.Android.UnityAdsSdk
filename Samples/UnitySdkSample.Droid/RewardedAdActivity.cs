@@ -7,77 +7,60 @@ using static Com.Unity3d.Ads.UnityAds;
 
 namespace UnitySdkSample.Droid
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme")]
-    public class RewardedAdActivity : AppCompatActivity
-    {
-        private readonly string _unityGameID = "1234567";
-        private readonly string _placementId = "Rewarded";
-        private readonly bool _isTestMode = true;
+	[Activity(Label = "@string/app_name", Theme = "@style/AppTheme")]
+	public class RewardedAdActivity : AppCompatActivity, IUnityAdsInitializationListener, IUnityAdsShowListener
+	{
+		private readonly string _unityGameID = "1234567";
+		private readonly string _placementId = "Rewarded";
+		private readonly bool _isTestMode = true;
 
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.activity_rewarded_ad);
+		protected override void OnCreate(Bundle savedInstanceState)
+		{
+			base.OnCreate(savedInstanceState);
+			SetContentView(Resource.Layout.activity_rewarded_ad);
 
-            // Initialize the Ads SDK:
-            Initialize(this, _unityGameID, new UnityAdsListener(), _isTestMode);
+			// Initialize the Ads SDK:
+			Initialize(this, _unityGameID, _isTestMode, this);
 
-            var showAdButton = FindViewById<Button>(Resource.Id.showAdButton);
-            showAdButton.Click += ShowAdButton_Click;
-        }
+			var showAdButton = FindViewById<Button>(Resource.Id.showAdButton);
+			showAdButton.Click += ShowAdButton_Click;
+		}
 
-        private void ShowAdButton_Click(object sender, System.EventArgs e)
-        {
-            DisplayInterstitialAd();
-        }
+		private void ShowAdButton_Click(object sender, System.EventArgs e)
+		{
+			DisplayInterstitialAd();
+		}
 
-        private void DisplayInterstitialAd()
-        {
-            if (UnityAds.InvokeIsReady(_placementId))
-            {
-                UnityAds.Show(this, _placementId);
-            }
-            else
-            {
-                Toast.MakeText(this, "Ad not yet loaded", ToastLength.Short);
-            }
-        }
+		private void DisplayInterstitialAd()
+		{
+			UnityAds.Show(this, _placementId, this);
+		}
 
-        // Implement the IUnityAdsListener interface methods:
-        private class UnityAdsListener : Java.Lang.Object, IUnityAdsListener
-        {
-            public void OnUnityAdsError(UnityAdsError p0, string p1)
-            {
-                // Implement functionality for a Unity Ads service error occurring.
-            }
+		public void OnInitializationComplete()
+		{
+			//
+		}
 
-            public void OnUnityAdsFinish(string p0, FinishState p1)
-            {
-                // Implement functionality for a user finishing an ad.
+		public void OnInitializationFailed(UnityAdsInitializationError p0, string p1)
+		{
+			//
+		}
 
-                if (p1 == FinishState.Completed)
-                {
-                    // Reward the user for watching the ad to completion.
-                }
-                else if (p1 == FinishState.Skipped)
-                {
-                    // Do not reward the user for skipping the ad.
-                }
-                else if (p1 == FinishState.Error)
-                {
-                    // Log an error.
-                }
-            }
+		public void OnUnityAdsShowClick(string p0)
+		{
+		}
 
-            public void OnUnityAdsReady(string p0)
-            {
-                // Implement functionality for an ad being ready to show.
-            }
+		public void OnUnityAdsShowComplete(string p0, UnityAdsShowCompletionState p1)
+		{
+		}
 
-            public void OnUnityAdsStart(string p0)
-            {
-                // Implement functionality for a user starting to watch an ad.
-            }
-        }
-    }
+		public void OnUnityAdsShowFailure(string p0, UnityAdsShowError p1, string p2)
+		{
+			Toast.MakeText(this, "Ad not yet loaded", ToastLength.Short);
+		}
+
+		public void OnUnityAdsShowStart(string p0)
+		{
+		}
+	}
 }

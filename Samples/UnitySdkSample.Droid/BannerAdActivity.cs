@@ -10,7 +10,7 @@ using Com.Unity3d.Services.Banners.View;
 namespace UnitySdkSample.Droid
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme")]
-    public class BannerAdActivity : AppCompatActivity
+    public class BannerAdActivity : AppCompatActivity, IUnityAdsInitializationListener
     {
         private readonly string _unityGameID = "1234567";
         private readonly string _placementId = "Banner";
@@ -27,7 +27,7 @@ namespace UnitySdkSample.Droid
             // Declare a new banner listener, and set it as the active banner listener:
             UnityBanners.BannerListener = new UnityBannerListener(this);
             // Initialize the Ads SDK:
-            UnityAds.Initialize(this, _unityGameID, new UnityAdsListener(), _isTestMode);
+            UnityAds.Initialize(this, _unityGameID, _isTestMode, this);
 
             var showAdButton = FindViewById<Button>(Resource.Id.showAdButton);
             showAdButton.Click += ShowAdButton_Click;
@@ -73,7 +73,7 @@ namespace UnitySdkSample.Droid
 
             public void OnUnityBannerError(string placementId)
             {
-                // Called when an error occurred, and the banner failed to load or show. 
+                // Called when an error occurred, and the banner failed to load or show.
             }
 
             public void OnUnityBannerHide(string placementId)
@@ -100,28 +100,14 @@ namespace UnitySdkSample.Droid
             }
         }
 
-        // Implement the IUnityAdsListener interface methods:
-        private class UnityAdsListener : Java.Lang.Object, IUnityAdsListener
+        public void OnInitializationComplete()
         {
-            public void OnUnityAdsError(UnityAds.UnityAdsError p0, string p1)
-            {
-                // Implement functionality for a Unity Ads service error occurring.
-            }
+	        //
+        }
 
-            public void OnUnityAdsFinish(string p0, UnityAds.FinishState p1)
-            {
-                // Implement functionality for a user finishing an ad.
-            }
-
-            public void OnUnityAdsReady(string p0)
-            {
-                // Implement functionality for an ad being ready to show.
-            }
-
-            public void OnUnityAdsStart(string p0)
-            {
-                // Implement functionality for a user starting to watch an ad.
-            }
+        public void OnInitializationFailed(UnityAds.UnityAdsInitializationError p0, string p1)
+        {
+	        //
         }
     }
 }

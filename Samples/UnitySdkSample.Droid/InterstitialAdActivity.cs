@@ -7,7 +7,7 @@ using Com.Unity3d.Ads;
 namespace UnitySdkSample.Droid
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme")]
-    public class InterstitialAdActivity : AppCompatActivity
+    public class InterstitialAdActivity : AppCompatActivity, IUnityAdsInitializationListener, IUnityAdsShowListener
     {
         private readonly string _unityGameID = "1234567";
         private readonly string _placementId = "video";
@@ -19,7 +19,7 @@ namespace UnitySdkSample.Droid
             SetContentView(Resource.Layout.activity_interstitial_ad);
 
             // Initialize the Ads SDK:
-            UnityAds.Initialize(this, _unityGameID, new UnityAdsListener(), _isTestMode);
+            UnityAds.Initialize(this, _unityGameID, _isTestMode);
 
             var showAdButton = FindViewById<Button>(Resource.Id.showAdButton);
             showAdButton.Click += ShowAdButton_Click;
@@ -32,38 +32,36 @@ namespace UnitySdkSample.Droid
 
         private void DisplayInterstitialAd()
         {
-            if (UnityAds.InvokeIsReady(_placementId))
-            {
-                UnityAds.Show(this, _placementId);
-            }
-            else
-            {
-                Toast.MakeText(this, "Ad not yet loaded", ToastLength.Short);
-            }
+	        UnityAds.Show(this, _placementId, this);
         }
 
-        // Implement the IUnityAdsListener interface methods:
-        private class UnityAdsListener : Java.Lang.Object, IUnityAdsListener
+        public void OnInitializationComplete()
         {
-            public void OnUnityAdsError(UnityAds.UnityAdsError p0, string p1)
-            {
-                // Implement functionality for a Unity Ads service error occurring.
-            }
 
-            public void OnUnityAdsFinish(string p0, UnityAds.FinishState p1)
-            {
-                // Implement functionality for a user finishing an ad.
-            }
+        }
 
-            public void OnUnityAdsReady(string p0)
-            {
-                // Implement functionality for an ad being ready to show.
-            }
+        public void OnInitializationFailed(UnityAds.UnityAdsInitializationError p0, string p1)
+        {
 
-            public void OnUnityAdsStart(string p0)
-            {
-                // Implement functionality for a user starting to watch an ad.
-            }
+        }
+
+        public void OnUnityAdsShowClick(string p0)
+        {
+
+        }
+
+        public void OnUnityAdsShowComplete(string p0, UnityAds.UnityAdsShowCompletionState p1)
+        {
+        }
+
+        public void OnUnityAdsShowFailure(string p0, UnityAds.UnityAdsShowError p1, string p2)
+        {
+	        Toast.MakeText(this, "Ad not yet loaded", ToastLength.Short);
+        }
+
+        public void OnUnityAdsShowStart(string p0)
+        {
+
         }
     }
 }
