@@ -13,7 +13,7 @@
     <RootNamespace>UnitySdk</RootNamespace>
     <AssemblyName>Xamarin.Android.UnityAdsSdk</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v13.0</TargetFrameworkVersion>
     <AndroidClassParser>class-parse</AndroidClassParser>
     <AndroidCodegenTarget>XAJavaInterop1</AndroidCodegenTarget>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -47,14 +47,12 @@
   <ItemGroup>
     <None Include="Jars\AboutJars.txt" />
     <None Include="Additions\AboutAdditions.txt" />
+    <LibraryProjectZip Include="Jars\unity-ads-4.7.1.aar" />
   </ItemGroup>
   <ItemGroup>
     <TransformFile Include="Transforms\Metadata.xml" />
     <TransformFile Include="Transforms\EnumFields.xml" />
     <TransformFile Include="Transforms\EnumMethods.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <LibraryProjectZip Include="Jars\unity-ads.aar" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
