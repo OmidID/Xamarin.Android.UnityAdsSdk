@@ -1,6 +1,8 @@
 ﻿<metadata>
 	<remove-node path="/api/package[not(starts-with(@name, 'com.unity3d.ads') or @name='com.unity3d.services' or starts-with(@name, 'com.unity3d.services.banners'))]" />
-  <attr path="/api/package[@name='com.unity3d.services.store']/class[@name='StoreError']/field[@name='STORE_ERROR']" name="managedName">StoreErrorValue</attr>
-  <remove-node path="/api/package[@name='com.unity3d.services.core.request']/interface[@name='IWebRequestListener']/method[@name='onFailed']" />
-  <attr path="/api/package[@name='com.unity3d.services.core.request']/interface[@name='IWebRequestListener']/method[@name='onFailed']" name="managedName">onFailedEvent</attr>
+	<attr path="/api/package[@name='com.unity3d.services.store']/class[@name='StoreError']/field[@name='STORE_ERROR']" name="managedName">StoreErrorValue</attr>
+	<remove-node path="/api/package[@name='com.unity3d.services.core.request']/interface[@name='IWebRequestListener']/method[@name='onFailed']" />
+	<attr path="/api/package[@name='com.unity3d.services.core.request']/interface[@name='IWebRequestListener']/method[@name='onFailed']" name="managedName">onFailedEvent</attr>
+
+	<ns-replace source='com.unity3d.' replacement='UnitySdk' />
 </metadata>
